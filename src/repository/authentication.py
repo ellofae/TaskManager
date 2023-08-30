@@ -1,11 +1,17 @@
 from datetime import datetime
 
 from database.database import session
-from models.user import User, UserEntity
+from models.user import User, UserEntity, RegisterForm
 
+def get_user(user_id: int) -> User:
+    with session() as db:
+        entity = db.query(UserEntity).get(user_id)
+        assert entity, f'No user with id {user_id} exists'
 
-def create(user: User) -> User:
-    user_entity = UserEntity.from_model(user)
+        return User.from_entity(entity)
+
+def create(register_form: RegisterForm) -> User:
+    user_entity = UserEntity.from_model(register_form)
     user_entity.created_at = datetime.now()
     
     with session() as db:

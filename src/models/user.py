@@ -1,4 +1,5 @@
 from typing import Optional
+from datetime import datetime, date
 
 from database.models_extensions import Base, BaseModelExtended
 from pydantic import Field
@@ -19,15 +20,21 @@ class UserEntity(Base):
 class User(BaseModelExtended):
     id: Optional[int] = None
     email: Optional[str] = None
-    phone: Optional[str] = Field(max_length=15, default=None)
-    password: Optional[str] = Field(max_length=20, default=None)
-    
+    phone: Optional[str] = None
+    status: Optional[str] = None
+    created_at: Optional[str] = None
+
     @classmethod
     def from_entity(cls, entity):
-        entity_dict = entity.to_dict()
-        entity_dict.pop('password')
-        
-        return cls(**entity_dict)
+        return cls(**{key: value.strftime("%Y-%m-%d %H:%M:%S") if isinstance(value, date) else value for key, value in entity.to_dict().items()})
     
+    class Config:
+        orm_mode = True
+
+class RegisterForm(BaseModelExtended):
+    email: Optional[str] = None
+    phone: str = Field(max_length=15)
+    password: str = Field(max_length=20)
+
     class Config:
         orm_mode = True

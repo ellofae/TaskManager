@@ -1,17 +1,18 @@
 """user model creation
 
-Revision ID: ed22a29bf958
+Revision ID: 3e76ea75eabd
 Revises: 
-Create Date: 2023-08-30 22:19:21.781424
+Create Date: 2023-08-31 00:15:22.363948
 
 """
 from typing import Sequence, Union
 
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
+
 
 # revision identifiers, used by Alembic.
-revision: str = 'ed22a29bf958'
+revision: str = '3e76ea75eabd'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None

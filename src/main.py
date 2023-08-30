@@ -34,7 +34,14 @@ app.add_middleware(
 async def uvicorn_exception_handler(request: Request, exc: AssertionError):
     return JSONResponse(
         status_code = 400,
-        content = {"message": str(exc)}
+        content = {'message': str(exc)}
+    )
+
+@app.exception_handler(Exception)
+async def uvicorn_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code = 500,
+        content = {'message': 'Something went wrong!'}
     )
 
 app.include_router(authentication_router, prefix='/authentication')
