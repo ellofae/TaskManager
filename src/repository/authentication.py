@@ -29,6 +29,7 @@ def update(user: User, user_id: int) -> User:
         for key, value in user.dict(exclude_unset=True).items():
             setattr(user_to_update, key, value)
 
+        user_to_update.updated_at = datetime.now()
         return save(user_to_update)
 
 def get_user_by_credentials(login_form: IdentificationForm) -> UserEntity:
