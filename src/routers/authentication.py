@@ -1,6 +1,6 @@
 import services.authentication as service
 from fastapi import APIRouter
-from models.user import User, RegisterForm
+from models.user import User, IdentificationForm
 
 authentication_router = APIRouter()
 
@@ -13,6 +13,9 @@ async def get_user(user_id: int) -> User:
     return service.get_user(user_id)
 
 @authentication_router.post('/', response_model=User, response_model_exclude_unset=True, status_code=201, tags=['users'])
-async def create(register_form: RegisterForm) -> User:
+async def create(register_form: IdentificationForm) -> User:
     return service.create(register_form)
 
+@authentication_router.patch('/{user_id}', response_model=User, response_model_exclude_unset=True, status_code=200, tags=['users'])
+async def update(user: User, user_id: int) -> User:
+    return service.update(user, user_id)

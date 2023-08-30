@@ -31,7 +31,7 @@ class User(BaseModelExtended):
     class Config:
         orm_mode = True
 
-class RegisterForm(BaseModelExtended):
+class IdentificationForm(BaseModelExtended):
     email: Optional[str] = None
     phone: str = Field(max_length=15)
     password: str = Field(max_length=20)
