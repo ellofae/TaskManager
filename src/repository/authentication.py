@@ -31,6 +31,18 @@ def update(user: User, user_id: int) -> User:
 
         return save(user_to_update)
 
+def get_user_by_credentials(login_form: IdentificationForm) -> UserEntity:
+    with session() as db:
+        if login_form.email:
+            entity = db.query(UserEntity).filter(UserEntity.email == login_form.email).first()
+            assert entity, 'No user with such email exists'
+        elif login_form.phone:
+            entity = db.query(UserEntity).filter(UserEntity.phone == login_form.phone).first()
+            assert entity, 'No user with such phone exists'
+
+        return entity
+
+
 def check_user_fields(entity: UserEntity):
     with session() as db:
         if entity.email:

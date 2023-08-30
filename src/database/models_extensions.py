@@ -16,11 +16,9 @@ class Base(DatabaseBase):
         return model.to_entity(cls)
 
 class BaseModelExtended(BaseModel):
-    __abstract__ = True
-    
     'Extended class for DTO models'
-    # def to_entity(self, entity):
-    #      return entity(**{field.name: getattr(self, field.name) for field in entity.__table__.c})
+    __abstract__ = True
+
     def to_entity(self, entity):
         attributes = {}
         for field in entity.__table__.c:

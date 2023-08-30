@@ -12,10 +12,14 @@ async def get_users() -> list[User]:
 async def get_user(user_id: int) -> User:
     return service.get_user(user_id)
 
-@authentication_router.post('/', response_model=User, response_model_exclude_unset=True, status_code=201, tags=['users'])
+@authentication_router.post('/', response_model=User, response_model_exclude_none=True, status_code=201, tags=['users'])
 async def create(register_form: IdentificationForm) -> User:
     return service.create(register_form)
 
-@authentication_router.patch('/{user_id}', response_model=User, response_model_exclude_unset=True, status_code=200, tags=['users'])
+@authentication_router.post('/login', response_model=User, response_model_exclude_none=True, status_code=200, tags=['users'])
+async def login(login_form: IdentificationForm) -> User:
+    return service.login(login_form)
+
+@authentication_router.patch('/{user_id}', response_model=User, response_model_exclude_none=True, status_code=200, tags=['users'])
 async def update(user: User, user_id: int) -> User:
     return service.update(user, user_id)
