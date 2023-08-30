@@ -5,6 +5,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from routers.authentication import authentication_router
+
 
 origins = [
     "*"
@@ -29,6 +31,4 @@ app.add_middleware(
     allow_headers = ["*"],
 )
 
-@app.get('/test')
-async def test():
-    return {'message': 'test'}
+app.include_router(authentication_router, prefix='/authentication')

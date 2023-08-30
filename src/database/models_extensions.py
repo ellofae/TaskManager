@@ -1,4 +1,5 @@
 from .database import DatabaseBase
+from pydantic import BaseModel
 
 class Base(DatabaseBase):
     'Extended class for declared_base object'
@@ -12,10 +13,12 @@ class Base(DatabaseBase):
     def from_model(cls, model):
         return model.to_entity(cls)
 
-class BaseModelExtended:
+class BaseModelExtended(BaseModel):
+    __abstract__ = True
+    
     'Extended class for DTO models'
     def to_entity(self, entity):
-        return entity(**{field.name: getattr(self, field.name) for field in entity.__table__.c})
+         return entity(**{field.name: getattr(self, field.name) for field in entity.__table__.c})
     
     @classmethod
     def from_entity(cls, entity):
