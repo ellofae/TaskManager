@@ -12,7 +12,9 @@ class UserEntity(Base):
     phone = Column(String, nullable=False)
     email = Column(String, nullable=True)
     password = Column(String, nullable=False)
+    status = Column(String, nullable=False, default='user')
     created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=True)
     
 class User(BaseModelExtended):
     id: Optional[int] = None
