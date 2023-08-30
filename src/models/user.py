@@ -11,6 +11,7 @@ class UserEntity(Base):
     id = Column(Integer, primary_key=True, index=True)
     phone = Column(String, nullable=False)
     email = Column(String, nullable=True)
+    created_at = Column(DateTime, nullable=False)
     
 class User(BaseModelExtended):
     id: Optional[str] = None
