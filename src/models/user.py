@@ -11,12 +11,21 @@ class UserEntity(Base):
     id = Column(Integer, primary_key=True, index=True)
     phone = Column(String, nullable=False)
     email = Column(String, nullable=True)
+    password = Column(String, nullable=False)
     created_at = Column(DateTime, nullable=False)
     
 class User(BaseModelExtended):
-    id: Optional[str] = None
+    id: Optional[int] = None
     email: Optional[str] = None
-    phone: str = Field(max_length=15)
+    phone: Optional[str] = Field(max_length=15, default=None)
+    password: Optional[str] = Field(max_length=20, default=None)
+    
+    @classmethod
+    def from_entity(cls, entity):
+        entity_dict = entity.to_dict()
+        entity_dict.pop('password')
+        
+        return cls(**entity_dict)
     
     class Config:
         orm_mode = True
