@@ -1,6 +1,8 @@
 from datetime import datetime
-from models.user import User, UserEntity
+
 from database.database import session
+from models.user import User, UserEntity
+
 
 def create(user: User) -> User:
     user_entity = UserEntity.from_model(user)

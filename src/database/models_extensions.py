@@ -1,5 +1,7 @@
-from .database import DatabaseBase
 from pydantic import BaseModel
+
+from .database import DatabaseBase
+
 
 class Base(DatabaseBase):
     'Extended class for declared_base object'

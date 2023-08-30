@@ -1,9 +1,9 @@
-from decouple import config
 from contextlib import contextmanager
 
+from decouple import config
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 engine = create_engine(
     "postgresql+psycopg2://{}:{}@{}:{}/{}".format(*[config(a) for a in ['DATABASE_USER', 'DATABASE_PASSWORD', 'DATABASE_HOST', 'DATABASE_PORT', 'DATABASE_NAME']]),

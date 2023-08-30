@@ -1,8 +1,8 @@
 import repository.authentication as repo
 import services.hashing as hashing_service
-
-from models.user import User, UserEntity
 from database.database import session
+from models.user import User, UserEntity
+
 
 def get_users() -> list[User]:
     with session() as db:

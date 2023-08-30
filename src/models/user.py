@@ -1,9 +1,9 @@
 from typing import Optional
-from datetime import datetime
 
-from pydantic import Field
 from database.models_extensions import Base, BaseModelExtended
+from pydantic import Field
 from sqlalchemy import Column, Integer, String, DateTime
+
 
 class UserEntity(Base):
     __tablename__ = 'users'

@@ -1,7 +1,6 @@
 import services.authentication as service
-
-from models.user import User
 from fastapi import APIRouter
+from models.user import User
 
 authentication_router = APIRouter()
 

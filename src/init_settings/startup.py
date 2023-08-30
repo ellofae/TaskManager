@@ -1,9 +1,10 @@
-import services.hashing as hashing_service
-
-from decouple import config
 from datetime import datetime
+
+import services.hashing as hashing_service
 from database.database import session
+from decouple import config
 from models.user import UserEntity
+
 
 def startup():
     print('loading data')
@@ -16,5 +17,3 @@ def startup():
 
             db.add(admin_user)
             db.commit()
-
-
