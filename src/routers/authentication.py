@@ -4,7 +4,7 @@ from models.user import User, IdentificationForm
 
 authentication_router = APIRouter()
 
-@authentication_router.post('/', response_model=User, response_model_exclude_none=True, status_code=201, tags=['users'])
+@authentication_router.post('/', response_model=User, response_model_exclude_none=True, status_code=201, tags=['authentication'])
 async def create(register_form: IdentificationForm) -> User:
     return service.create(register_form)
 
