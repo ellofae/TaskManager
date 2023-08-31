@@ -3,6 +3,7 @@ from datetime import datetime
 from database.database import session
 from models.user import User, UserEntity, IdentificationForm
 
+
 def create(register_form: IdentificationForm) -> User:
     user_entity = UserEntity.from_model(register_form)
     user_entity.created_at = datetime.now()

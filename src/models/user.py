@@ -1,5 +1,5 @@
+from datetime import date
 from typing import Optional
-from datetime import datetime, date
 
 from database.models_extensions import Base, BaseModelExtended
 from pydantic import Field

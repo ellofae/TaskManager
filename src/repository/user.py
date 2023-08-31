@@ -3,6 +3,7 @@ from datetime import datetime
 from database.database import session
 from models.user import User, UserEntity, IdentificationForm
 
+
 def get_user(user_id: int) -> User:
     with session() as db:
         entity = db.query(UserEntity).get(user_id)

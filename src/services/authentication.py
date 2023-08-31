@@ -1,11 +1,11 @@
 import repository.authentication as repo
 import services.hashing as hashing_service
-import services.user as user_service
 import services.refresh as refresh_service
-
+import services.user as user_service
 from auth.jwt_auth import jwt_encode
-from models.user import User, UserEntity, IdentificationForm
 from models.token import TokenResponse
+from models.user import User, IdentificationForm
+
 
 def create(register_form: IdentificationForm) -> User:
     register_form.password = hashing_service.password_hashing(register_form.password)

@@ -1,7 +1,9 @@
-from auth.jwt_auth import jwt_encode
-from models.token import TokenResponse, RefreshToken, TokenEntity
-from database.database import session
+from models.token import TokenEntity
 import datetime
+
+from database.database import session
+from models.token import TokenEntity
+
 
 def check_whether_exists(current_user_id: int) -> bool:
     with session() as db:

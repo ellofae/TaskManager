@@ -1,9 +1,9 @@
-import services.refresh as service
-
-from fastapi import APIRouter, Depends
-from models.token import TokenResponse, RefreshToken
-from common.current_user_data import get_current_user_id
 from typing import Annotated
+
+import services.refresh as service
+from common.current_user_data import get_current_user_id
+from fastapi import APIRouter, Depends
+from models.token import RefreshToken
 
 refresh_router = APIRouter()
 

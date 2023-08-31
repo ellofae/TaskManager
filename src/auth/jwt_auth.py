@@ -1,7 +1,8 @@
-import jwt
 import datetime
 
+import jwt
 from decouple import config
+
 
 def jwt_encode(user_id: int) -> (str, str):
     expiry = datetime.datetime.now() + datetime.timedelta(minutes=30)

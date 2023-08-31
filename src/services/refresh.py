@@ -1,10 +1,10 @@
-import repository.refresh as repo
+import datetime
 import secrets
 import string
-import datetime
 
-from decouple import config
+import repository.refresh as repo
 from auth.jwt_auth import jwt_encode
+from decouple import config
 from models.token import TokenResponse, RefreshToken, TokenEntity
 
 

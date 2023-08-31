@@ -5,10 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 import common
-from routers.user import user_router
+from auth.jwt_auth import jwt_decode
 from routers.authentication import authentication_router
 from routers.refresh import refresh_router
-from auth.jwt_auth import jwt_decode
+from routers.user import user_router
 
 origins = [
     "*"
