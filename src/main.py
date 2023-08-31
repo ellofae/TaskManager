@@ -9,6 +9,7 @@ from auth.jwt_auth import jwt_decode
 from routers.authentication import authentication_router
 from routers.refresh import refresh_router
 from routers.user import user_router
+from routers.task import task_router
 
 origins = [
     "*"
@@ -82,3 +83,4 @@ app.add_middleware(
 app.include_router(user_router, prefix='/users')
 app.include_router(authentication_router, prefix='/authentication')
 app.include_router(refresh_router, prefix='/refresh')
+app.include_router(task_router, prefix='/tasks')
