@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 import init_settings
 from routers.user import user_router
 from routers.authentication import authentication_router
+from auth.jwt_auth import jwt_decode
 
 origins = [
     "*"
@@ -50,6 +51,17 @@ async def authentication(request: Request, call_next):
         if request.url.path.startswith('/static'):
             return None
 
+        auth_header = request.headers.get('Authorization')
+        if not auth_header or not auth_header.lower().startswith('bearer'):
+            return 'Bearer token is required'
+
+        access_token = auth_header.split(' ')[1].strip()
+        user_payload = jwt_decode(access_token)
+
+        if not user_payload or not user_payload.get('user_id'):
+            return 'Invalid token'
+
+        request.state.user_id = user_payload.get('user_id')
         return None
 
     'if response not is not None -> status code 401'

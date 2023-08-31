@@ -16,7 +16,7 @@ def jwt_encode(user_id: int) -> (str, str):
     encoded_jwt = jwt.encode(payload, config('JWT_SECRET_KEY'), algorithm=config('ENCODING_ALGORITHM'))
     return encoded_jwt, expiry.strftime("%Y-%m-%d %H:%M:%S")
 
-def parse_jwt_token(token: str) -> dict:
+def jwt_decode(token: str) -> dict:
     try:
         decoded_jwt = jwt.decode(token, config('JWT_SECRET_KEY'), algorithms=config('ENCODING_ALGORITHM'))
         return decoded_jwt
