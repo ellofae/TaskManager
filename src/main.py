@@ -23,13 +23,6 @@ app = FastAPI(
     lifespan = lifespan
 )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins = origins,
-    allow_methods = ["*"],
-    allow_headers = ["*"],
-)
-
 @app.exception_handler(AssertionError)
 async def uvicorn_exception_handler(request: Request, exc: AssertionError):
     return JSONResponse(
@@ -43,5 +36,33 @@ async def uvicorn_exception_handler(request: Request, exc: Exception):
         status_code = 500,
         content = {'message': 'Something went wrong!'}
     )
+
+@app.middleware("http")
+async def authentication(request: Request, call_next):
+    def auth() -> str | None:
+        if request.method == 'GET' and request.url.path[1:] in ['docs', 'redoc', 'openapi.json', 'favicon.ico']:
+            return None
+
+        if request.url.path.startswith('/auth'):
+            return None
+
+        if request.url.path.startswith('/static'):
+            return None
+
+        return None
+
+    'if response not is not None -> status code 401'
+    if auth_error := auth():
+        return JSONResponse(status_code=401, content={'message': auth_error})
+
+    response = await call_next(request)
+    return response
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+)
 
 app.include_router(authentication_router, prefix='/authentication')
