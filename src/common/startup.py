@@ -7,7 +7,7 @@ from models.user import UserEntity
 
 
 def startup():
-    print('loading data')
+    print('INFO: loading data')
 
     with session() as db:
         user_record = db.query(UserEntity).filter(UserEntity.status == 'admin').first()

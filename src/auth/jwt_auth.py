@@ -5,7 +5,7 @@ from decouple import config
 
 
 def jwt_encode(user_id: int) -> (str, str):
-    expiry = datetime.datetime.now() + datetime.timedelta(minutes=30)
+    expiry = datetime.datetime.now() + datetime.timedelta(minutes=config('ACCESS_TOKEN_EXPIRY_MINUTES'))
     expiry_str = expiry.isoformat()
 
     payload = {
