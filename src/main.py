@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 import init_settings
+from routers.user import user_router
 from routers.authentication import authentication_router
 
 origins = [
@@ -65,4 +66,5 @@ app.add_middleware(
     allow_headers = ["*"],
 )
 
+app.include_router(user_router, prefix='/users')
 app.include_router(authentication_router, prefix='/authentication')
