@@ -1,7 +1,7 @@
 import services.user as service
 from fastapi import APIRouter
 from models.user import User, IdentificationForm
-from models.token_response import TokenResponse
+from models.token import TokenResponse
 
 user_router = APIRouter()
 

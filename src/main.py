@@ -4,9 +4,10 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-import init_settings
+import common
 from routers.user import user_router
 from routers.authentication import authentication_router
+from routers.refresh import refresh_router
 from auth.jwt_auth import jwt_decode
 
 origins = [
@@ -15,7 +16,7 @@ origins = [
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    init_settings.startup()
+    common.startup()
     yield
 
 
@@ -64,7 +65,7 @@ async def authentication(request: Request, call_next):
         request.state.user_id = user_payload.get('user_id')
         return None
 
-    'if response not is not None -> status code 401'
+    'if response is not None -> status code 401'
     if auth_error := auth():
         return JSONResponse(status_code=401, content={'message': auth_error})
 
@@ -80,3 +81,4 @@ app.add_middleware(
 
 app.include_router(user_router, prefix='/users')
 app.include_router(authentication_router, prefix='/authentication')
+app.include_router(refresh_router, prefix='/refresh')
