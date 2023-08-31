@@ -17,3 +17,7 @@ def create(task: TaskCreationForm, current_user_id: int) -> Task:
 def update(task: TaskUpdateForm, task_id: int, current_user_id: int) -> Task:
     assert task_id > 0, 'Task id must be greater than zero'
     return repo.update(task, task_id, current_user_id)
+
+def delete(task_id: int, current_user_id: int) -> Task:
+    assert task_id > 0, 'Task id must be greater than zero'
+    return repo.delete(task_id, current_user_id)

@@ -22,3 +22,8 @@ async def create(task: TaskCreationForm, current_user_id: Annotated[int, Depends
 @task_router.patch('/{task_id}', response_model=Task, response_model_exclude_none=True, status_code=200, tags=['tasks'])
 async def update(task: TaskUpdateForm, task_id: int, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> Task:
     return service.update(task, task_id, current_user_id)
+
+@task_router.delete('/{task_id}', status_code=200, tags=['tasks'])
+async def delete(task_id: int, current_user_id: Annotated[int, Depends(get_current_user_id)]):
+    task_deleted = service.delete(task_id, current_user_id)
+    return {'message': 'task deleted', 'task_id': task_deleted.id}
