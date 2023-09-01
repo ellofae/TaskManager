@@ -2,13 +2,13 @@ import repository.company_user as repo
 from models.company_status import CompanyStatus
 from models.company_user import CompanyUser, CompanyUserCreationForm
 
-# def get_company_user_by_id(company_user_id: int, current_user_id: int) -> CompanyUser:
-#     assert company_user_id > 0, 'Company user id must be greater than zero'
-#     company_user = repo.get_company_user_by_id(company_user_id)
-#     # TODO: only the one who is attached to the same company get get the attached user
-#     #repo.get_current_company_user(company_user.company, current_user_id)
-
-#     return company_user
+def get_company_user_by_id(company_user_id: int, current_user_id: int) -> CompanyUser:
+    assert company_user_id > 0, 'Company user id must be greater than zero'
+    company_user = repo.get_company_user_by_id(company_user_id)
+    # TODO: only the one who is attached to the same company get get the attached user
+    #repo.get_current_company_user(company_user.company, current_user_id)
+    
+    return company_user
 
 def get_company_users(company_id: int, current_user_id: int) -> list[CompanyUser]:
     repo.get_current_company_user(company_id, current_user_id)
