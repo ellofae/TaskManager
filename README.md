@@ -19,7 +19,7 @@
     Authentication:
 
     POST '/authentication'
-    POST 'authentication/login'
+    POST '/authentication/login'
 
 ____
 

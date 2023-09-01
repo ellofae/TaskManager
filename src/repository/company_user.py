@@ -1,11 +1,24 @@
 from models.company_user import CompanyUser, CompanyUserEntity
 from database.database import session
+from models.company_status import CompanyStatus
 from datetime import datetime
 
-def get_user_by_company_id(company_id: int, current_user_id: int) -> CompanyUser:
+# def get_company_user_by_id(company_user_id: int) -> CompanyUser:
+#     with session() as db:
+#         entity = db.query(CompanyUserEntity).get(company_user_id)
+#         assert entity, 'No company user with id {company_user_id} exists'
+
+#         return CompanyUser.from_entity(entity)
+
+def get_company_users(company_id: int) -> list[CompanyUser]:
+    with session() as db:
+        entities = db.query(CompanyUserEntity).filter(CompanyUserEntity.company == company_id).order_by(CompanyUserEntity.id.desc()).all()
+        return [CompanyUser.from_entity(entity) for entity in entities]
+
+def get_current_company_user(company_id: int, current_user_id: int) -> CompanyUser:
     with session() as db:
         entity = db.query(CompanyUserEntity).filter(CompanyUserEntity.company == company_id, CompanyUserEntity.user == current_user_id).first()
-        assert entity, f'No company with id {company_id} exists for current user'
+        assert entity, f'User with id {current_user_id} is not registered for the company with id {company_id}'
         
         return CompanyUser.from_entity(entity)
 
@@ -14,15 +27,18 @@ def get_allowed_companies(current_user_id) -> list[int]:
         company_ids = db.query(CompanyUserEntity.id).filter(CompanyUserEntity.user == current_user_id).order_by(CompanyUserEntity.id.desc()).all()
         return company_ids
 
-def check_weather_user_exists(user_id: int, company_id: int) -> None:
+def check_weather_user_exists(user_id: int, company_id: int) -> CompanyUser:
     with session() as db:
         entity = db.query(CompanyUserEntity).filter(CompanyUserEntity.user == user_id, CompanyUserEntity.company == company_id).first()
-        assert not entity, f'User with id {user_id} is already registered for the company with id {company_id}'
+        return CompanyUser.from_entity(entity)
 
-def attach_user(user_id: int, company_id: int) -> None:
-    entity = CompanyUserEntity(company=company_id, user=user_id, member_since=datetime.now())
+def attach_user(user_id: int, company_id: int, company_status: CompanyStatus) -> CompanyUser:
     with session() as db:
-        save(entity)
+        company_user = db.query(CompanyUserEntity).filter(CompanyUserEntity.company == company_id, CompanyUserEntity.user == user_id).first()
+        assert not company_user, f'User with id {user_id} is already registered for company with id {company_id}'
+
+    entity = CompanyUserEntity(company=company_id, user=user_id, member_since=datetime.now(), user_status=company_status)
+    return save(entity)
 
 def save(entity: CompanyUserEntity) -> CompanyUser:
     with session() as db:

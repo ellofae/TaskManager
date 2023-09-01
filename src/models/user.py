@@ -34,7 +34,7 @@ class User(BaseModelExtended):
 
 class IdentificationForm(BaseModelExtended):
     email: Optional[str] = None
-    phone: str = Field(max_length=15)
+    phone: Optional[str] = Field(max_length=15, default=None)
     password: str = Field(max_length=20)
 
     class Config:

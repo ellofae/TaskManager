@@ -3,6 +3,7 @@ from datetime import date
 from database.models_extensions import Base, BaseModelExtended
 from models.company_status import CompanyStatus
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum
+from pydantic import Field
 
 class CompanyUserEntity(Base):
     __tablename__ = 'company_users'
@@ -26,8 +27,8 @@ class CompanyUser(BaseModelExtended):
         orm_mode = True
 
 class CompanyUserCreationForm(BaseModelExtended):
-    user: int
-    company: int
+    user: int = Field(gt=0)
+    company: int = Field(gt=0)
     user_status: CompanyStatus
 
     class Config:
