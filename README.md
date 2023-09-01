@@ -13,3 +13,31 @@
     JWT_SECRET_KEY=secret
     REFRESH_TOKEN_LENGTH = 128
     ENCODING_ALGORITHM=HS256
+
+## Routers
+
+    Authentication:
+
+    POST '/authentication'
+    POST 'authentication/login'
+
+____
+
+    Refresh token:
+
+    POST '/refresh'
+
+___
+    Company:
+
+    GET '/companies'
+    GET '/companies/{company_id}'
+    POST '/companies'
+___
+    Task:
+    
+    GET '/tasks'
+    GET '/tasks/{task_id}'
+    POST '/tasks'
+    PATCH '/tasks/{task_id}'
+    DELETE '/tasks/{task_id}'
