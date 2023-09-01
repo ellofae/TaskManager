@@ -2,6 +2,18 @@ from models.company_user import CompanyUser, CompanyUserEntity
 from database.database import session
 from datetime import datetime
 
+def get_user_by_company_id(company_id: int, current_user_id: int) -> CompanyUser:
+    with session() as db:
+        entity = db.query(CompanyUserEntity).filter(CompanyUserEntity.company == company_id, CompanyUserEntity.user == current_user_id).first()
+        assert entity, f'No company with id {company_id} exists for current user'
+        
+        return CompanyUser.from_entity(entity)
+
+def get_allowed_companies(current_user_id) -> list[int]:
+    with session() as db:
+        company_ids = db.query(CompanyUserEntity.id).filter(CompanyUserEntity.user == current_user_id).order_by(CompanyUserEntity.id.desc()).all()
+        return company_ids
+
 def check_weather_user_exists(user_id: int, company_id: int) -> None:
     with session() as db:
         entity = db.query(CompanyUserEntity).filter(CompanyUserEntity.user == user_id, CompanyUserEntity.company == company_id).first()

@@ -1,20 +1,21 @@
 from typing import Optional
 from datetime import date
 from database.models_extensions import Base, BaseModelExtended
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from models.company_status import CompanyStatus
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum
 
 class CompanyUserEntity(Base):
     __tablename__ = 'company_users'
 
     id = Column(Integer, primary_key=True, index=True)
-    user_status = Column(String, nullable=False, default='manager')
+    user_status = Column(Enum(CompanyStatus), nullable=False, default=CompanyStatus.MANAGER)
     company = Column(Integer, ForeignKey("companies.id", ondelete='CASCADE'), nullable=True)
     user = Column(Integer, ForeignKey("users.id", ondelete='CASCADE'), nullable=True)
     member_since = Column(DateTime, nullable=False)
 
 class CompanyUser(BaseModelExtended):
     id: Optional[int] = None
-    user_status: str
+    user_status: CompanyStatus
     member_since: str
 
     @classmethod
@@ -27,7 +28,7 @@ class CompanyUser(BaseModelExtended):
 class CompanyUserCreationForm(BaseModelExtended):
     user: int
     company: int
-    user_status: str
+    user_status: CompanyStatus
 
     class Config:
         orm_mode = True

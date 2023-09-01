@@ -2,8 +2,9 @@ from datetime import date
 from typing import Optional
 
 from database.models_extensions import Base, BaseModelExtended
+from models.regular_status import RegularStatus
 from pydantic import Field
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Enum
 
 
 class UserEntity(Base):
@@ -13,7 +14,7 @@ class UserEntity(Base):
     phone = Column(String, nullable=False)
     email = Column(String, nullable=True)
     password = Column(String, nullable=False)
-    status = Column(String, nullable=False, default='user')
+    status = Column(Enum(RegularStatus), nullable=False, default=RegularStatus.USER)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
     
@@ -21,7 +22,7 @@ class User(BaseModelExtended):
     id: Optional[int] = None
     email: Optional[str] = None
     phone: Optional[str] = None
-    status: Optional[str] = None
+    status: Optional[RegularStatus] = None
     created_at: Optional[str] = None
 
     @classmethod
