@@ -27,7 +27,7 @@ def get_current_company_user(company_id: int, current_user_id: int):
 def get_allowed_companies(current_user_id) -> list[int]:
     return repo.get_allowed_companies(current_user_id)
 
-def check_weather_user_exists(user_id: int, company_id: int) -> CompanyUser:
+def check_weather_user_exists(user_id: int, company_id: int) -> CompanyUser | None:
     return repo.check_weather_user_exists(user_id, company_id)
 
 def attach_user(user_id: int, company_id: int, company_status: CompanyStatus) -> None:

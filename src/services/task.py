@@ -3,9 +3,9 @@ import services.company_user as company_user_service
 from database.database import session
 from models.task import Task, TaskCreationForm, TaskEntity, TaskUpdateForm
 
-def get_all_records(current_user_id: int) -> list[Task]:
+def get_all_tasks(company_user_id: int) -> list[Task]:
     with session() as db:
-        entities = db.query(TaskEntity).filter(TaskEntity.user_id == current_user_id).order_by(TaskEntity.id.desc()).all()
+        entities = db.query(TaskEntity).filter(TaskEntity.created_by == company_user_id).order_by(TaskEntity.id.desc()).all()
         return [Task.from_entity(entity) for entity in entities]
 
 def get_task_by_id(task_id: int, current_user_id: int) -> Task:

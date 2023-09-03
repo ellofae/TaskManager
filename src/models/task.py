@@ -9,7 +9,7 @@ class TaskEntity(Base):
     __tablename__ = 'tasks'
 
     id = Column(Integer, primary_key=True, index=True)
-    created_by = Column(Integer, nullable=False)
+    created_by = Column(Integer, ForeignKey("company_users.id", ondelete='CASCADE'), nullable=True)
     title = Column(String, nullable=False)
     description = Column(String, nullable=True)
     task_specifications = Column(String, nullable=False)

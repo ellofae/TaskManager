@@ -11,6 +11,7 @@ class SubtaskEntity(Base):
     title = Column(String, nullable=False)
     description = Column(String, nullable=True)
     task_specifications = Column(String, nullable=False)
+    created_by = Column(Integer, ForeignKey("company_users.id", ondelete='CASCADE'), nullable=True)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
 
@@ -21,6 +22,7 @@ class Subtask(BaseModelExtended):
     title: str
     description: Optional[str]
     task_specifications: str
+    created_by: int
     created_at: str
 
     @classmethod
