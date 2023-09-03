@@ -18,6 +18,7 @@ class CompanyUser(BaseModelExtended):
     id: Optional[int] = None
     user_status: CompanyStatus
     member_since: str
+    company: int
 
     @classmethod
     def from_entity(cls, entity):
@@ -31,5 +32,10 @@ class CompanyUserCreationForm(BaseModelExtended):
     company: int = Field(gt=0)
     user_status: CompanyStatus
 
+    class Config:
+        orm_mode = True
+
+class CompanyUserUpdateForm(BaseModelExtended):
+    user_status: Optional[str]
     class Config:
         orm_mode = True

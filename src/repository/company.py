@@ -1,5 +1,6 @@
 from models.company import Company, CompanyEntity
 from database.database import session
+from datetime import datetime
 
 def get_company_by_id(company_id: int) -> Company:
     with session() as db:
@@ -8,16 +9,17 @@ def get_company_by_id(company_id: int) -> Company:
 
         return Company.from_entity(entity)
 
-def get_all_companies(comany_ids: int) -> list[CompanyEntity]:
+def get_all_companies(company_ids: list[int]) -> list[CompanyEntity]:
     with session() as db:
         entities = []
-        for id in comany_ids:
+        for id in company_ids:
             entities.append(db.query(CompanyEntity).get(id))
 
         return entities
 
 def create(company: Company):
     entity = CompanyEntity.from_model(company)
+    entity.created_at = datetime.now()
     return save(entity)
 
 def save(entity: CompanyEntity) -> Company:
