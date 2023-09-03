@@ -10,7 +10,12 @@ def get_all_tasks(company_user_id: int) -> list[Task]:
 
 def get_task_by_id(task_id: int, current_user_id: int) -> Task:
     assert task_id > 0, 'Task id must be greater than zero'
-    return repo.get_task_by_id(task_id, current_user_id)
+    task = repo.get_task_by_id(task_id)
+
+    company_user = company_user_service.check_weather_user_exists(current_user_id, task.company)
+    assert company_user, f'Current user is not attached to the company with id {task.company}'
+
+    return task
 
 def create(task: TaskCreationForm, current_user_id: int) -> Task:
     company_user = company_user_service.check_weather_user_exists(current_user_id, task.company)
@@ -19,8 +24,18 @@ def create(task: TaskCreationForm, current_user_id: int) -> Task:
 
 def update(task: TaskUpdateForm, task_id: int, current_user_id: int) -> Task:
     assert task_id > 0, 'Task id must be greater than zero'
-    return repo.update(task, task_id, current_user_id)
+
+    task_by_id = repo.get_task_by_id(task_id)
+    company_user = company_user_service.check_weather_user_exists(current_user_id, task_by_id.company)
+    assert company_user, f'User is not attached to company with id {task_by_id.company}'
+
+    return repo.update(task, task_id)
 
 def delete(task_id: int, current_user_id: int) -> Task:
     assert task_id > 0, 'Task id must be greater than zero'
-    return repo.delete(task_id, current_user_id)
+
+    task_by_id = repo.get_task_by_id(task_id)
+    company_user = company_user_service.check_weather_user_exists(current_user_id, task_by_id.company)
+    assert company_user, f'User is not attached to company with id {task_by_id.company}'
+
+    return repo.delete(task_id)
