@@ -22,7 +22,7 @@ class SubtaskEntity(Base):
 class Subtask(BaseModelExtended):
     id: Optional[int] = None
     title: str
-    description: Optional[str]
+    description: Optional[str] = None
     task_specifications: str
     task: int
     created_by: int
@@ -37,7 +37,7 @@ class Subtask(BaseModelExtended):
 
 class SubtaskCreationForm(BaseModelExtended):
     title: str
-    description: Optional[str]
+    description: Optional[str] = None
     task_specifications: str
     task: int = Field(gt=0)
 
@@ -45,9 +45,9 @@ class SubtaskCreationForm(BaseModelExtended):
         orm_mode = True
 
 class SubtaskUpdateForm(BaseModelExtended):
-    title: Optional[str]
-    description: Optional[str]
-    task_specifications: Optional[str]
+    title: Optional[str] = None
+    description: Optional[str] = None
+    task_specifications: Optional[str] = None
 
     class Config:
         orm_mode = True
