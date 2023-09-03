@@ -24,3 +24,12 @@ def update(subtask_id: int, subtask: SubtaskUpdateForm, current_user_id: int) ->
     assert company_user, f'User is not attached to company with id {task.company}'
 
     return repo.update(subtask_id, subtask)
+
+def delete(subtask_id: int, current_user_id: int) -> Subtask:
+    assert subtask_id > 0, 'Subtask id must be greater than zero'
+    task = task_service.get_task_by_id(subtask_id, current_user_id)
+
+    company_user = company_user_service.check_weather_user_exists(current_user_id, task.company)
+    assert company_user, f'User is not attached to company with id {task.company}'
+
+    return repo.delete(subtask_id)

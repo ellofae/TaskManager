@@ -12,3 +12,7 @@ async def create(subtask: SubtaskCreationForm, current_user_id: Annotated[int, D
 @subtask_router.patch('/{subtask_id}', response_model=Subtask, response_model_exclude_unset=True, status_code=200, tags=['subtasks'])
 async def update(subtask_id: int, subtask: SubtaskUpdateForm, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> Subtask:
     return service.update(subtask_id, subtask, current_user_id)
+
+@subtask_router.delete('/{subtask_id}', response_model=Subtask, response_model_exclude_unset=True, status_code=200, tags=['subtasks'])
+async def update(subtask_id: int, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> Subtask:
+    return service.delete(subtask_id, current_user_id)

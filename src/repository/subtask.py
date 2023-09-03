@@ -25,6 +25,16 @@ def update(subtask_id: int, subtask: SubtaskUpdateForm) -> Subtask:
         entity.updated_at = datetime.now()
         return save(entity)
 
+def delete(subtask_id: int) -> Subtask:
+    with session() as db:
+        entity = db.query(SubtaskEntity).get(subtask_id)
+        assert entity, f'No task with id {subtask_id} exists'
+
+        db.delete(entity)
+        db.commit()
+
+        return Subtask.from_entity(entity)
+
 def save(entity: SubtaskEntity) -> Subtask:
     with session() as db:
         'False -> detect only local-column based properties'
