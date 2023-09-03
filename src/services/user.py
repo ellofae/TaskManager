@@ -24,3 +24,7 @@ def update(user: User, user_id: int) -> User:
     check_user_fields(user)
 
     return repo.update(user, user_id)
+
+def delete(user_id: int) -> User:
+    assert user_id > 0, 'User id must be greater than zero'
+    return repo.delete(user_id)

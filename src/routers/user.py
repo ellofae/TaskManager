@@ -13,6 +13,11 @@ async def get_users() -> list[User]:
 async def get_user(user_id: int) -> User:
     return service.get_user(user_id)
 
-@user_router.patch('/{user_id}', status_code=200, tags=['users'])
-async def update(user: User, user_id: int) -> TokenResponse:
+@user_router.patch('/{user_id}', response_model=TokenResponse, status_code=200, tags=['users'])
+async def update(user_id: int, user: User) -> TokenResponse:
     return service.update(user, user_id)
+
+@user_router.delete('/{user_id}', status_code=200, tags=['users'])
+async def delete(user_id: int):
+    deleted_user = service.delete(user_id)
+    return {'message': 'deleted', 'user_id': deleted_user.id}

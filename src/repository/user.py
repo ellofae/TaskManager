@@ -16,7 +16,9 @@ def update(user: User, user_id: int) -> User:
         user_to_update = db.query(UserEntity).get(user_id)
         assert user_to_update, f'No user with id {user_id} exists'
 
-        assert user_to_update.email != user.email, 'You cannot change your email to the one you already have'
+        if user.email:
+            assert user_to_update.email != user.email, 'You cannot change your email to the one you already have'
+
         assert user_to_update.phone != user.phone, 'You cannot change your phone to the one you already have'
 
         for key, value in user.dict(exclude_unset=True).items():
@@ -46,7 +48,17 @@ def check_user_fields(user: User) -> None:
         if user.phone:
             database_entity = db.query(UserEntity).filter(UserEntity.phone == user.phone).first()
             assert not database_entity, 'Phone number is already registered'
-        
+
+def delete(user_id: int) -> User:
+    with session() as db:
+        entity = db.query(UserEntity).get(user_id)
+        assert entity, f'No user with id {user_id} exists'
+
+        db.delete(entity)
+        db.commit()
+
+        return User.from_entity(entity)
+
 def save(entity: UserEntity) -> User:
     with session() as db:
         'False -> detect only local-column based properties'
