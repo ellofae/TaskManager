@@ -8,7 +8,6 @@ from models.task import Task, TaskCreationForm, TaskUpdateForm
 
 def get_all_tasks(company_id: int, current_user_id: int) -> list[Task]:
     company_user = company_user_service.check_weather_user_exists(current_user_id, company_id)
-    assert company_user, f'Current user is not attached to the company with id {company_id}'
     return task_service.get_all_tasks(company_user.id)
 
 def get_company_users(company_id: int, current_user_id: int) -> list[CompanyUser]:
@@ -18,9 +17,7 @@ def get_company_users(company_id: int, current_user_id: int) -> list[CompanyUser
 def get_company_by_id(company_id: int, current_user_id: int) -> Company:
     assert company_id > 0, 'Company id must be greater than zero'
 
-    company_user = company_user_service.check_weather_user_exists(current_user_id, company_id)
-    assert company_user, f'User with id {current_user_id} is not registered for the company with id {company_id}'
-
+    company_user_service.check_weather_user_exists(current_user_id, company_id)
     return repo.get_company_by_id(company_id)
 
 def get_all_companies(current_user_id: int) -> list[Company]:
