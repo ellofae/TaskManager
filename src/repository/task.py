@@ -9,9 +9,9 @@ def get_task_by_id(task_id: int, current_user_id: int) -> Task:
 
         return Task.from_entity(entity)
 
-def create(task: TaskCreationForm, current_user_id: int) -> Task:
+def create(task: TaskCreationForm, company_user_id: int) -> Task:
     entity = TaskEntity.from_model(task)
-    entity.user_id = current_user_id
+    entity.created_by = company_user_id
     entity.created_at = datetime.now()
 
     return save(entity)

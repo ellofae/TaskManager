@@ -3,17 +3,18 @@ from typing import Optional
 
 from database.models_extensions import Base, BaseModelExtended
 from pydantic import Field
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 
 class TaskEntity(Base):
     __tablename__ = 'tasks'
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, nullable=False)
+    created_by = Column(Integer, nullable=False)
     title = Column(String, nullable=False)
     description = Column(String, nullable=True)
     task_specifications = Column(String, nullable=False)
     deadline = Column(DateTime, nullable=True)
+    company = Column(Integer, ForeignKey("companies.id", ondelete='CASCADE'), nullable=True)
     status = Column(String, nullable=False, default='active')
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
@@ -24,6 +25,8 @@ class Task(BaseModelExtended):
     description: Optional[str] = None
     task_specifications: str
     deadline: Optional[str] = None
+    created_by: int
+    company: int
     status: str
     created_at: str
 
@@ -35,13 +38,16 @@ class Task(BaseModelExtended):
         orm_mode = True
 
 class TaskCreationForm(BaseModelExtended):
-    title: str
     description: Optional[str] = None
     task_specifications: str
     deadline: Optional[datetime] = None
+    company: int = Field(gt=0)
 
     class Config:
         orm_mode = True
+
+    title: str
+
 
 class TaskUpdateForm(BaseModelExtended):
     title: Optional[str] = None

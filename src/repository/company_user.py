@@ -27,9 +27,12 @@ def get_allowed_companies(current_user_id) -> list[int]:
         company_ids = db.query(CompanyUserEntity.id).filter(CompanyUserEntity.user == current_user_id).order_by(CompanyUserEntity.id.desc()).all()
         return company_ids
 
-def check_weather_user_exists(user_id: int, company_id: int) -> CompanyUser:
+def check_weather_user_exists(user_id: int, company_id: int) -> CompanyUser | None:
     with session() as db:
         entity = db.query(CompanyUserEntity).filter(CompanyUserEntity.user == user_id, CompanyUserEntity.company == company_id).first()
+        if not entity:
+            return None
+
         return CompanyUser.from_entity(entity)
 
 def attach_user(user_id: int, company_id: int, company_status: CompanyStatus) -> CompanyUser:
