@@ -1,7 +1,9 @@
-from models.company_user import CompanyUser, CompanyUserEntity, CompanyUserUpdateForm
+from datetime import datetime
+
 from database.database import session
 from models.company_status import CompanyStatus
-from datetime import datetime
+from models.company_user import CompanyUser, CompanyUserEntity, CompanyUserUpdateForm
+
 
 def get_company_user_by_id(company_user_id: int) -> CompanyUser:
     with session() as db:

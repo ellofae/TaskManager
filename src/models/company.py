@@ -1,6 +1,6 @@
-from pydantic import Field
-from datetime import date, datetime
+from datetime import date
 from typing import Optional
+
 from database.models_extensions import Base, BaseModelExtended
 from sqlalchemy import Column, Integer, String, DateTime
 

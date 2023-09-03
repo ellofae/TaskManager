@@ -1,8 +1,9 @@
-import services.subtask as service
-from fastapi import APIRouter, Depends
 from typing import Annotated
-from models.subtask import SubtaskCreationForm, Subtask, SubtaskUpdateForm
+
+import services.subtask as service
 from common.current_user_data import get_current_user_id
+from fastapi import APIRouter, Depends
+from models.subtask import SubtaskCreationForm, Subtask, SubtaskUpdateForm
 
 subtask_router = APIRouter()
 @subtask_router.post('/', response_model=Subtask, response_model_exclude_unset=True, status_code=201, tags=['subtasks'])

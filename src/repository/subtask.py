@@ -1,6 +1,8 @@
 from datetime import datetime
-from models.subtask import Subtask, SubtaskEntity, SubtaskCreationForm, SubtaskUpdateForm
+
 from database.database import session
+from models.subtask import Subtask, SubtaskEntity, SubtaskCreationForm, SubtaskUpdateForm
+
 
 def get_subtasks(task_id: int) -> list[Subtask]:
     with session() as db:

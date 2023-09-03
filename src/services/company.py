@@ -1,10 +1,11 @@
 import repository.company as repo
 import services.company_user as company_user_service
 import services.task as task_service
-from models.company import Company, CompanyEntity
+from models.company import Company
 from models.company_status import CompanyStatus
-from models.company_user import CompanyUserEntity, CompanyUser
-from models.task import Task, TaskCreationForm, TaskUpdateForm
+from models.company_user import CompanyUser
+from models.task import Task
+
 
 def get_all_tasks(company_id: int, current_user_id: int) -> list[Task]:
     company_user = company_user_service.check_weather_user_exists(current_user_id, company_id)

@@ -1,6 +1,8 @@
-from models.company import Company, CompanyEntity
-from database.database import session
 from datetime import datetime
+
+from database.database import session
+from models.company import Company, CompanyEntity
+
 
 def get_company_by_id(company_id: int) -> Company:
     with session() as db:

@@ -5,19 +5,21 @@ from database.models_extensions import Base, BaseModelExtended
 from pydantic import Field
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 
+
 class TaskEntity(Base):
     __tablename__ = 'tasks'
 
     id = Column(Integer, primary_key=True, index=True)
-    created_by = Column(Integer, ForeignKey("company_users.id", ondelete='CASCADE'), nullable=True)
     title = Column(String, nullable=False)
     description = Column(String, nullable=True)
     task_specifications = Column(String, nullable=False)
     deadline = Column(DateTime, nullable=True)
-    company = Column(Integer, ForeignKey("companies.id", ondelete='CASCADE'), nullable=True)
     status = Column(String, nullable=False, default='active')
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
+
+    created_by = Column(Integer, ForeignKey("company_users.id", ondelete='CASCADE'), nullable=True)
+    company = Column(Integer, ForeignKey("companies.id", ondelete='CASCADE'), nullable=True)
 
 class Task(BaseModelExtended):
     id: Optional[int] = None

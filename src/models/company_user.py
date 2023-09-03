@@ -1,9 +1,11 @@
-from typing import Optional
 from datetime import date
+from typing import Optional
+
 from database.models_extensions import Base, BaseModelExtended
 from models.company_status import CompanyStatus
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum
 from pydantic import Field
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, Enum
+
 
 class CompanyUserEntity(Base):
     __tablename__ = 'company_users'

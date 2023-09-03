@@ -1,10 +1,10 @@
-import services.task as service
-
-from fastapi import APIRouter, Depends
 from typing import Annotated
+
+import services.task as service
 from common.current_user_data import get_current_user_id
-from models.task import Task, TaskCreationForm, TaskUpdateForm
+from fastapi import APIRouter, Depends
 from models.subtask import Subtask
+from models.task import Task, TaskCreationForm, TaskUpdateForm
 
 task_router = APIRouter()
 

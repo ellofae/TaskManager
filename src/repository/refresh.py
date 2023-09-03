@@ -1,4 +1,3 @@
-from models.token import TokenEntity
 import datetime
 
 from database.database import session

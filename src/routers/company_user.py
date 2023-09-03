@@ -1,9 +1,9 @@
-import services.company_user as service
+from typing import Annotated
 
+import services.company_user as service
+from common.current_user_data import get_current_user_id
 from fastapi import APIRouter, Depends
 from models.company_user import CompanyUser, CompanyUserCreationForm, CompanyUserUpdateForm
-from typing import Annotated
-from common.current_user_data import get_current_user_id
 
 company_user_router = APIRouter()
 

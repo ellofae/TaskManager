@@ -1,8 +1,10 @@
-from datetime import date, datetime
+from datetime import date
 from typing import Optional
-from pydantic import Field
+
 from database.models_extensions import Base, BaseModelExtended
+from pydantic import Field
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+
 
 class SubtaskEntity(Base):
     __tablename__ = 'subtasks'
@@ -11,10 +13,10 @@ class SubtaskEntity(Base):
     title = Column(String, nullable=False)
     description = Column(String, nullable=True)
     task_specifications = Column(String, nullable=False)
-    created_by = Column(Integer, ForeignKey("company_users.id", ondelete='CASCADE'), nullable=False)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
 
+    created_by = Column(Integer, ForeignKey("company_users.id", ondelete='CASCADE'), nullable=False)
     task = Column(Integer, ForeignKey("tasks.id", ondelete='CASCADE'), nullable=True)
 
 class Subtask(BaseModelExtended):

@@ -1,6 +1,8 @@
 from datetime import datetime
+
 from database.database import session
 from models.task import Task, TaskEntity, TaskCreationForm, TaskUpdateForm
+
 
 def get_task_by_id(task_id: int) -> Task:
     with session() as db:

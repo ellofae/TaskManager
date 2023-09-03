@@ -1,11 +1,11 @@
+from typing import Annotated
+
 import services.company as service
 from common.current_user_data import get_current_user_id
-
-from typing import Annotated
+from fastapi import APIRouter, Depends
 from models.company import Company
 from models.company_user import CompanyUser
-from fastapi import APIRouter, Depends
-from models.task import Task, TaskCreationForm, TaskUpdateForm
+from models.task import Task
 
 company_router = APIRouter()
 

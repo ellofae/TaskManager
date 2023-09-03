@@ -10,7 +10,6 @@ def get_subtasks(task_id: int, current_user_id: int, company_id: int) -> list[Su
 def create(subtask: SubtaskCreationForm, current_user_id: int) -> Subtask:
     task = task_service.get_task_by_id(subtask.task, current_user_id)
     company_user = company_user_service.check_weather_user_exists(current_user_id, task.company)
-
     return repo.create(subtask, company_user.id)
 
 def update(subtask_id: int, subtask: SubtaskUpdateForm, current_user_id: int) -> Subtask:

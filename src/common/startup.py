@@ -3,8 +3,8 @@ from datetime import datetime
 import services.hashing as hashing_service
 from database.database import session
 from decouple import config
-from models.user import UserEntity
 from models.regular_status import RegularStatus
+from models.user import UserEntity
 
 
 def startup():
