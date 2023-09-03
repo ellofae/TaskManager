@@ -10,6 +10,7 @@ from models.token import TokenEntity
 from models.task import TaskEntity
 from models.company import CompanyEntity
 from models.company_user import CompanyUserEntity
+from models.subtask import SubtaskEntity
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

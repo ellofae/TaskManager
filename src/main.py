@@ -12,6 +12,7 @@ from routers.user import user_router
 from routers.task import task_router
 from routers.company import company_router
 from routers.company_user import company_user_router
+from routers.subtask import subtask_router
 
 origins = [
     "*"
@@ -88,3 +89,4 @@ app.include_router(refresh_router, prefix='/refresh')
 app.include_router(task_router, prefix='/tasks')
 app.include_router(company_router, prefix='/companies')
 app.include_router(company_user_router, prefix='/company_users')
+app.include_router(subtask_router, prefix='/subtasks')

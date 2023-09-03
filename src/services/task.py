@@ -1,7 +1,15 @@
 import repository.task as repo
 import services.company_user as company_user_service
+import services.subtask as subtask_service
 from database.database import session
 from models.task import Task, TaskCreationForm, TaskEntity, TaskUpdateForm
+from models.subtask import Subtask
+
+def get_subtasks(task_id: int, current_user_id: int) -> list[Subtask]:
+    assert task_id > 0, 'Task id must be graeter than zero'
+
+    task = repo.get_task_by_id(task_id)
+    return subtask_service.get_subtasks(task_id, current_user_id, task.company)
 
 def get_all_tasks(company_user_id: int) -> list[Task]:
     with session() as db:
