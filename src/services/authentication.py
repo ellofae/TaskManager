@@ -9,7 +9,6 @@ from models.user import User, IdentificationForm
 
 def create(register_form: IdentificationForm) -> User:
     register_form.password = hashing_service.password_hashing(register_form.password)
-
     return repo.create(register_form)
 
 def login(login_form: IdentificationForm) -> TokenResponse:
