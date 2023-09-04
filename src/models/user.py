@@ -3,8 +3,10 @@ from typing import Optional
 
 from database.models_extensions import Base, BaseModelExtended
 from models.regular_status import RegularStatus
+from models.user_task import UserTask
 from pydantic import Field
 from sqlalchemy import Column, Integer, String, DateTime, Enum
+from sqlalchemy.orm import relationship
 
 
 class UserEntity(Base):
@@ -17,7 +19,7 @@ class UserEntity(Base):
     status = Column(Enum(RegularStatus), nullable=False, default=RegularStatus.USER)
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=True)
-    
+
 class User(BaseModelExtended):
     id: Optional[int] = None
     email: Optional[str] = None
@@ -39,3 +41,8 @@ class IdentificationForm(BaseModelExtended):
 
     class Config:
         orm_mode = True
+
+class UserAttachForm(BaseModelExtended):
+    company_user_id: int = Field(gt=0)
+    class Config:
+        orm_model = True

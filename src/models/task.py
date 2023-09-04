@@ -4,6 +4,8 @@ from typing import Optional
 from database.models_extensions import Base, BaseModelExtended
 from pydantic import Field
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
+from models.user_task import UserTask
 
 
 class TaskEntity(Base):
@@ -19,7 +21,11 @@ class TaskEntity(Base):
     updated_at = Column(DateTime, nullable=True)
 
     created_by = Column(Integer, ForeignKey("company_users.id", ondelete='CASCADE'), nullable=True)
-    company = Column(Integer, ForeignKey("companies.id", ondelete='CASCADE'), nullable=True)
+    company_id = Column(Integer, ForeignKey("companies.id", ondelete='CASCADE'), nullable=True)
+
+    'Relationships'
+    company_user = relationship("CompanyUserEntity")
+    company = relationship("CompanyEntity")
 
 class Task(BaseModelExtended):
     id: Optional[int] = None
@@ -28,7 +34,7 @@ class Task(BaseModelExtended):
     task_specifications: str
     deadline: Optional[str] = None
     created_by: int
-    company: int
+    company_id: int
     status: str
     created_at: str
 
@@ -43,7 +49,7 @@ class TaskCreationForm(BaseModelExtended):
     description: Optional[str] = None
     task_specifications: str
     deadline: Optional[datetime] = None
-    company: int = Field(gt=0)
+    company_id: int = Field(gt=0)
 
     class Config:
         orm_mode = True

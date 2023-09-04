@@ -4,6 +4,7 @@ import services.task as service
 from common.current_user_data import get_current_user_id
 from fastapi import APIRouter, Depends
 from models.subtask import Subtask
+from models.user import UserAttachForm
 from models.task import Task, TaskCreationForm, TaskUpdateForm
 
 task_router = APIRouter()
@@ -19,6 +20,11 @@ async def get_task_by_id(task_id: int, current_user_id: Annotated[int, Depends(g
 @task_router.post('/', response_model=Task, response_model_exclude_none=True, status_code=201, tags=['tasks'])
 async def create(task: TaskCreationForm, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> Task:
     return service.create(task, current_user_id)
+
+@task_router.post('/{task_id}/attach_user', status_code=201, tags=['tasks'])
+async def attach(task_id: int, user_attach: UserAttachForm, current_user_id: Annotated[int, Depends(get_current_user_id)]):
+    company_user_id = service.attach(task_id, user_attach, current_user_id)
+    return {'message': 'user attached', 'company user id': company_user_id, 'task id': task_id}
 
 @task_router.patch('/{task_id}', response_model=Task, response_model_exclude_none=True, status_code=200, tags=['tasks'])
 async def update(task: TaskUpdateForm, task_id: int, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> Task:
