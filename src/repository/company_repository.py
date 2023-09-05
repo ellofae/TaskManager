@@ -1,5 +1,6 @@
-from models.company import Company, CompanyEntity
 from database.database import session
+from models.company import Company, CompanyEntity
+
 
 class CompanyRepository:
     # Command module

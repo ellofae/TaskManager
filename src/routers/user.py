@@ -1,8 +1,6 @@
-import services.user as service
+from controllers.user_controller import get_user_controller
 from fastapi import APIRouter
 from models.user import User
-
-from controllers.user_controller import get_user_controller
 
 user_router = APIRouter()
 

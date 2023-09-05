@@ -1,7 +1,8 @@
 from datetime import datetime
-from models.company import Company, CompanyEntity
 
+from models.company import Company, CompanyEntity
 from repository.company_repository import CompanyRepository
+
 
 class CompanyService:
     def __init__(self, repo: CompanyRepository):

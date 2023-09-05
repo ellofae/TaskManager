@@ -1,12 +1,11 @@
-import utils.hashing as hashing_util
-
 from datetime import datetime
 
-from models.user import IdentificationForm, User, UserEntity
-from models.token import TokenResponse
-
+import utils.hashing as hashing_util
 from auth.jwt_auth import jwt_encode
+from models.token import TokenResponse
+from models.user import IdentificationForm, User, UserEntity
 from repository.user_repository import UserRepository
+
 
 class UserService:
     def __init__(self, repo: UserRepository):

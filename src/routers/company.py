@@ -2,12 +2,11 @@ from typing import Annotated
 
 import services.company as service
 from common.current_user_data import get_current_user_id
+from controllers.company_controller import get_company_controller
 from fastapi import APIRouter, Depends
 from models.company import Company
 from models.company_user import CompanyUser
 from models.task import Task
-
-from controllers.company_controller import get_company_controller
 
 company_router = APIRouter()
 

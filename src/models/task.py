@@ -5,7 +5,6 @@ from database.models_extensions import Base, BaseModelExtended
 from pydantic import Field
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from models.user_task import UserTask
 
 
 class TaskEntity(Base):

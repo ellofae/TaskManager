@@ -1,11 +1,10 @@
-from models.user import User, UserEntity, IdentificationForm
 from models.token import TokenResponse
-
-from services.user_service import UserService
-from services.token_service import TokenService
-
-from repository.user_repository import UserRepository
+from models.user import User, IdentificationForm
 from repository.token_repository import TokenRepository
+from repository.user_repository import UserRepository
+from services.token_service import TokenService
+from services.user_service import UserService
+
 
 class UserController:
     def __init__(self, us: UserService, ts: TokenService):

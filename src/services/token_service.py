@@ -1,10 +1,11 @@
 import datetime
-import utils.token_generation as token_util
 
+import utils.token_generation as token_util
 from auth.jwt_auth import jwt_encode
 from decouple import config
-from repository.token_repository import TokenRepository
 from models.token import TokenResponse, RefreshToken, TokenEntity
+from repository.token_repository import TokenRepository
+
 
 class TokenService:
     def __init__(self, repo: TokenRepository):

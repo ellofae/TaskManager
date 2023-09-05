@@ -1,8 +1,6 @@
-import services.authentication as service
+from controllers.user_controller import get_user_controller
 from fastapi import APIRouter
 from models.user import User, IdentificationForm
-
-from controllers.user_controller import get_user_controller
 
 authentication_router = APIRouter()
 

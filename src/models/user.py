@@ -3,10 +3,8 @@ from typing import Optional
 
 from database.models_extensions import Base, BaseModelExtended
 from models.regular_status import RegularStatus
-from models.user_task import UserTask
 from pydantic import Field
 from sqlalchemy import Column, Integer, String, DateTime, Enum
-from sqlalchemy.orm import relationship
 
 
 class UserEntity(Base):

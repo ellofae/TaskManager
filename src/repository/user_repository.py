@@ -1,6 +1,8 @@
 from datetime import datetime
-from models.user import IdentificationForm, User, UserEntity
+
 from database.database import session
+from models.user import IdentificationForm, User, UserEntity
+
 
 class UserRepository:
     # Command module

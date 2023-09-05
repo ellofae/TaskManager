@@ -1,11 +1,9 @@
 from typing import Annotated
 
-import services.refresh as service
 from common.current_user_data import get_current_user_id
+from controllers.token_controller import get_token_controller
 from fastapi import APIRouter, Depends
 from models.token import RefreshToken
-
-from controllers.token_controller import get_token_controller
 
 refresh_router = APIRouter()
 

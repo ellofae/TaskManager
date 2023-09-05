@@ -3,8 +3,8 @@ import services.company_user as company_user_service
 import services.subtask as subtask_service
 from database.database import session
 from models.subtask import Subtask
-from models.user import UserAttachForm
 from models.task import Task, TaskCreationForm, TaskEntity, TaskUpdateForm
+from models.user import UserAttachForm
 
 
 def get_subtasks(task_id: int, current_user_id: int) -> list[Subtask]:

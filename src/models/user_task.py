@@ -1,5 +1,5 @@
-from database.models_extensions import Base, BaseModelExtended
-from sqlalchemy import Column, Integer, ForeignKey, Table
+from database.models_extensions import Base
+from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
 # UserTask = Table('user_task', Base.metadata,

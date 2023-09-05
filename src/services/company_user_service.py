@@ -1,7 +1,7 @@
-from models.company_user import CompanyUser
 from models.company_status import CompanyStatus
-
+from models.company_user import CompanyUser
 from repository.company_user_repository import CompanyUserRepository
+
 
 class CompanyUserService:
     def __init__(self, repo: CompanyUserRepository):

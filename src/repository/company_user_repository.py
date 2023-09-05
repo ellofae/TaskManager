@@ -1,7 +1,9 @@
-from models.company_user import CompanyUser, CompanyUserEntity
-from models.company_status import CompanyStatus
-from database.database import session
 from datetime import datetime
+
+from database.database import session
+from models.company_status import CompanyStatus
+from models.company_user import CompanyUser, CompanyUserEntity
+
 
 class CompanyUserRepository:
     # Command module

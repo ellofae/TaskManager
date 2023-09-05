@@ -1,6 +1,7 @@
 from models.token import TokenResponse, RefreshToken
-from services.token_service import TokenService
 from repository.token_repository import TokenRepository
+from services.token_service import TokenService
+
 
 class TokenController:
     def __init__(self, ts: TokenService):

@@ -1,11 +1,10 @@
 from models.company import Company
 from models.company_status import CompanyStatus
-
-from services.company_user_service import CompanyUserService
-from services.company_service import CompanyService
-
 from repository.company_repository import CompanyRepository
 from repository.company_user_repository import CompanyUserRepository
+from services.company_service import CompanyService
+from services.company_user_service import CompanyUserService
+
 
 class CompanyController:
     def __init__(self, cs: CompanyService, cus: CompanyUserService):
