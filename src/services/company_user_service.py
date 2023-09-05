@@ -3,7 +3,7 @@ from models.company_status import CompanyStatus
 
 from repository.company_user_repository import CompanyUserRepository
 
-class CompanyUserController:
+class CompanyUserService:
     def __init__(self, repo: CompanyUserRepository):
         self.repo = repo
 

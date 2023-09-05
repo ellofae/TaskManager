@@ -9,8 +9,6 @@ class CompanyUserController:
         self.company_user_service = cus
 
 
-
-
 def get_company_controller() -> CompanyUserController:
     company_user_repository = CompanyUserRepository()
     company_user_service = CompanyUserService(company_user_repository)

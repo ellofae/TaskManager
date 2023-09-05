@@ -3,7 +3,7 @@ from models.company import Company, CompanyEntity
 
 from repository.company_repository import CompanyRepository
 
-class CompanyController:
+class CompanyService:
     def __init__(self, repo: CompanyRepository):
         self.repo = repo
 

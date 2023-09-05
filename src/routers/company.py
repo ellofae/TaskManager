@@ -7,6 +7,8 @@ from models.company import Company
 from models.company_user import CompanyUser
 from models.task import Task
 
+from controllers.company_controller import get_company_controller
+
 company_router = APIRouter()
 
 @company_router.get('/', response_model=list[Company], response_model_exclude_none=True, status_code=200, tags=['companies'])
@@ -27,4 +29,5 @@ async def get_company_by_id(company_id: int, current_user_id: Annotated[int, Dep
 
 @company_router.post('/', response_model=Company, response_model_exclude_none=True, status_code=201, tags=['companies'])
 async def create(company: Company, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> Company:
-    return service.create(company, current_user_id)
+    company_controller = get_company_controller()
+    return company_controller.create(company, current_user_id)
