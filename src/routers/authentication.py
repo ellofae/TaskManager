@@ -2,13 +2,17 @@ import services.authentication as service
 from fastapi import APIRouter
 from models.user import User, IdentificationForm
 
+from controllers.user_controller import get_user_controller
+
 authentication_router = APIRouter()
 
 @authentication_router.post('/register', response_model=User, response_model_exclude_none=True, status_code=201, tags=['authentication'])
 async def create(register_form: IdentificationForm) -> User:
-    return service.create(register_form)
+    user_controller = get_user_controller
+    return user_controller.create(register_form)
 
 @authentication_router.post('/login', status_code=200, tags=['authentication'])
 async def login(login_form: IdentificationForm):
-    token_data = service.login(login_form)
+    user_controller = get_user_controller
+    token_data = user_controller.login(login_form)
     return {'token_data': token_data}
