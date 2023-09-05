@@ -13,3 +13,11 @@ class CompanyRepository:
             db.commit()
 
             return Company.from_entity(entity)
+
+    # Querying module
+    def get_company_by_id(self, company_id: int) -> Company:
+        with session() as db:
+            entity = db.query(CompanyEntity).get(company_id)
+            assert entity, f'No company with id {company_id} exists'
+
+            return Company.from_entity(entity)
