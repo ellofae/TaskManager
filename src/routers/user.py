@@ -19,7 +19,7 @@ async def get_user(user_id: int) -> User:
 @user_router.patch('/{user_id}', response_model=User, status_code=200, tags=['users'])
 async def update(user_id: int, user: User) -> User:
     user_controller = get_user_controller()
-    return user_controller.update(user, user_id)
+    return user_controller.update(user_id, user)
 
 @user_router.delete('/{user_id}', status_code=200, tags=['users'])
 async def delete(user_id: int):

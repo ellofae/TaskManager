@@ -40,7 +40,7 @@ class UserService:
         assert user_id > 0, 'User id must be greater than zero'
         self.repo.check_user_fields(user)
 
-        user_to_update = self.repo.get_user(user_id)
+        user_to_update = self.repo.get_user_entity(user_id)
         assert user_to_update, f'No user with id {user_id} exists'
 
         return self.repo.update(user, user_to_update)
@@ -48,7 +48,7 @@ class UserService:
     def delete(self, user_id: int) -> User:
         assert user_id > 0, 'User id must be greater than zero'
 
-        user_to_delete = self.repo.get_user(user_id)
+        user_to_delete = self.repo.get_user_entity(user_id)
         assert user_to_delete, f'No user with id {user_id} exists'
 
         return self.repo.delete(user_to_delete)

@@ -46,6 +46,13 @@ class UserRepository:
 
             return User.from_entity(entity)
 
+    def get_user_entity(self, user_id: int) -> UserEntity:
+        with session() as db:
+            entity = db.query(UserEntity).get(user_id)
+            assert entity, f'No user with id {user_id} exists'
+
+            return entity
+
     def check_user_fields(self, user: User) -> None:
         with session() as db:
             if user.email:

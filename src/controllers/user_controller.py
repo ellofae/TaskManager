@@ -28,10 +28,10 @@ class UserController:
         return self.user_service.get_user(user_id)
 
     def update(self, user_id: int, user: User) -> User:
-        return self.user_service.update_user(user_id, user)
+        return self.user_service.update(user_id, user)
 
     def delete(self, user_id: int):
-        return self.user_service.delete_user(user_id)
+        return self.user_service.delete(user_id)
 
 def get_user_controller() -> UserController:
     token_repository = TokenRepository()
