@@ -29,3 +29,9 @@ class CompanyUserRepository:
                 return None
 
             return CompanyUser.from_entity(entity)
+
+    def get_allowed_companies(self, user_id: int) -> list[int]:
+        with session() as db:
+            company_ids = db.query(CompanyUserEntity.id).filter(CompanyUserEntity.user == user_id).order_by(
+                CompanyUserEntity.id.desc()).all()
+            return company_ids

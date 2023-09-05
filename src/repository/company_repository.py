@@ -21,3 +21,11 @@ class CompanyRepository:
             assert entity, f'No company with id {company_id} exists'
 
             return Company.from_entity(entity)
+
+    def get_all_companies(self, companies_ids: list[int]) -> list[CompanyEntity]:
+        with session() as db:
+            entities = []
+            for id in companies_ids:
+                entities.append(db.query(CompanyEntity).get(id))
+
+            return entities

@@ -11,6 +11,10 @@ class CompanyService:
         assert company_id > 0, 'Company id must be greater than zero'
         return self.repo.get_company_by_id(company_id)
 
+    def get_all_companies(self, companies_ids: list[int]) -> list[Company]:
+        companies = self.repo.get_all_companies(companies_ids)
+        return [Company.from_entity(entity) for entity in companies]
+
     def create(self, company: Company) -> Company:
         entity = CompanyEntity.from_model(company)
         entity.created_at = datetime.now()
