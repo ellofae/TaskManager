@@ -23,6 +23,12 @@ class CompanyUserRepository:
         return self.save(entity)
 
     # Querying module
+    def get_company_users(self, company_id: int) -> list[CompanyUser]:
+        with session() as db:
+            entities = db.query(CompanyUserEntity).filter(CompanyUserEntity.company == company_id).order_by(
+                CompanyUserEntity.id.desc()).all()
+            return [CompanyUser.from_entity(entity) for entity in entities]
+
     def check_weather_user_exists(self, user_id: int, company_id: int) -> CompanyUser | None:
         with session() as db:
             entity = db.query(CompanyUserEntity).filter(CompanyUserEntity.user == user_id,

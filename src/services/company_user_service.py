@@ -7,6 +7,14 @@ class CompanyUserService:
     def __init__(self, repo: CompanyUserRepository):
         self.repo = repo
 
+    def get_company_users(self, company_id: int, user_id: int) -> list[CompanyUser]:
+        current_company_user = self.repo.check_weather_user_exists(user_id, company_id)
+        assert current_company_user, f'User with id {user_id} is already registered for company with id {company_id}'
+
+        return self.repo.get_company_users(company_id)
+
+
+
     def get_allowed_companies(self, user_id: int) -> list[int]:
         return self.repo.get_allowed_companies(user_id)
 
