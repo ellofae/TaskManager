@@ -1,4 +1,4 @@
-from models.task import Task, TaskCreationForm
+from models.task import Task, TaskCreationForm, TaskUpdateForm
 from models.user import UserAttachForm
 from repository.task_repository import TaskRepository
 from services.task_service import TaskService
@@ -22,6 +22,22 @@ class TaskController:
         assert company_user, f'User with id {current_user_id} is not registered for company with id {task.company_id}'
 
         return self.task_service.create(task, company_user.id)
+
+    def update(self, task_update_form: TaskUpdateForm, task_id: int, current_user_id: int) -> Task:
+        task = self.task_service.get_task_by_id(task_id)
+
+        user_to_check = self.company_user_service.check_weather_user_exists(current_user_id, task.company_id)
+        assert user_to_check, f'User with id {current_user_id} is not registered for company with id {task.company_id}'
+
+        return self.task_service.update(task_update_form, task_id)
+
+    def delete(self, task_id: int, current_user_id: int) -> Task:
+        task = self.task_service.get_task_by_id(task_id)
+
+        user_to_check = self.company_user_service.check_weather_user_exists(current_user_id, task.company_id)
+        assert user_to_check, f'User with id {current_user_id} is not registered for company with id {task.company_id}'
+
+        return self.task_service.delete(task_id)
 
     def attach(self, task_id: int, user_attach: UserAttachForm, current_user_id: int) -> int:
         task = self.task_service.get_task_by_id(task_id)

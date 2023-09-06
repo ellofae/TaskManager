@@ -1,5 +1,5 @@
 from datetime import datetime
-from models.task import Task, TaskEntity, TaskCreationForm
+from models.task import Task, TaskEntity, TaskCreationForm, TaskUpdateForm
 from models.user import UserAttachForm
 from repository.task_repository import TaskRepository
 
@@ -14,6 +14,18 @@ class TaskService:
         entity.created_at = datetime.now()
 
         return self.repo.save(entity)
+
+    def update(self, task: TaskUpdateForm, task_id: int) -> Task:
+        assert task_id > 0, 'Task id must be greater than zero'
+        task_entity_to_update = self.repo.get_task_entity_by_id(task_id)
+
+        return self.repo.update(task_entity_to_update, task)
+
+    def delete(self, task_id: int) -> Task:
+        assert task_id > 0, 'Task id must be greater than zero'
+        task_entity_to_delete = self.repo.get_task_entity_by_id(task_id)
+
+        return self.repo.delete(task_entity_to_delete)
 
     def attach(self, task_id: int, company_user_id: int) -> int:
         assert task_id > 0, 'Task id must be greater than zero'

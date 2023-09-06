@@ -1,4 +1,5 @@
-from models.task import Task, TaskEntity
+from datetime import datetime
+from models.task import Task, TaskEntity, TaskUpdateForm
 from models.user_task import UserTask
 from models.company import CompanyEntity
 from database.database import session
@@ -12,6 +13,23 @@ class TaskRepository:
                 entity = db.merge(entity)
 
             db.add(entity)
+            db.commit()
+
+            return Task.from_entity(entity)
+
+    def update(self, entity_to_update: TaskEntity, task: TaskUpdateForm) -> Task:
+        with session() as db:
+            db.merge(entity_to_update)
+
+            for key, value in task.dict(exclude_unset=True).items():
+                setattr(entity_to_update, key, value)
+
+            entity_to_update.updated_at = datetime.now()
+            return self.save(entity_to_update)
+
+    def delete(self, entity: TaskEntity) -> Task:
+        with session() as db:
+            db.delete(entity)
             db.commit()
 
             return Task.from_entity(entity)
