@@ -26,7 +26,8 @@ async def create(task: TaskCreationForm, current_user_id: Annotated[int, Depends
 
 @task_router.post('/{task_id}/attach_user', status_code=201, tags=['tasks'])
 async def attach(task_id: int, user_attach: UserAttachForm, current_user_id: Annotated[int, Depends(get_current_user_id)]):
-    company_user_id = service.attach(task_id, user_attach, current_user_id)
+    task_controller = get_task_controller()
+    company_user_id = task_controller.attach(task_id, user_attach, current_user_id)
     return {'message': 'user attached', 'company user id': company_user_id, 'task id': task_id}
 
 @task_router.patch('/{task_id}', response_model=Task, response_model_exclude_none=True, status_code=200, tags=['tasks'])
