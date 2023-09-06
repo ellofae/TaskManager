@@ -8,12 +8,14 @@ from models.task import Task, TaskCreationForm, TaskUpdateForm
 from models.user import UserAttachForm
 
 from controllers.task_controller import get_task_controller
+from controllers.subtask_controller import get_subtask_controller
 
 task_router = APIRouter()
 
 @task_router.get('/{task_id}/subtasks', response_model=list[Subtask], response_model_exclude_none=True, status_code=200, tags=['tasks'])
 async def get_subtasks(task_id: int, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> list[Subtask]:
-    return service.get_subtasks(task_id, current_user_id)
+    subtask_controller = get_subtask_controller()
+    return subtask_controller.get_subtasks(task_id, current_user_id)
 
 @task_router.get('/{task_id}', response_model=Task, response_model_exclude_none=True, status_code=200, tags=['tasks'])
 async def get_task_by_id(task_id: int, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> Task:
