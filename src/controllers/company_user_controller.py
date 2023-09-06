@@ -9,10 +9,8 @@ class CompanyUserController:
     def __init__(self, cus: CompanyUserService):
         self.company_user_service = cus
 
-    # def create(self, company_user: CompanyUserCreationForm, current_user_id: int) -> CompanyUser:
-    #     current_user = self.company_user_service.check_weather_user_exists(current_user_id, company_user.company)
-    #     assert current_user, f'User with id {current_user_id} is not registered for the company with id {company_user.company}'
-    #     assert current_user.user_status == CompanyStatus.MANAGER, 'Only manager can add new users to the company'
+    def create(self, company_user: CompanyUserCreationForm, current_user_id: int) -> CompanyUser:
+        return self.company_user_service.create(company_user, current_user_id)
 
     def get_company_user_by_id(self, company_user_id: int, current_user_id: int) -> CompanyUser:
         return self.company_user_service.get_company_user_by_id(company_user_id, current_user_id)

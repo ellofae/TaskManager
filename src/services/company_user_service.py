@@ -1,11 +1,21 @@
 from models.company_status import CompanyStatus
-from models.company_user import CompanyUser
+from models.company_user import CompanyUser, CompanyUserCreationForm
 from repository.company_user_repository import CompanyUserRepository
 
 
 class CompanyUserService:
     def __init__(self, repo: CompanyUserRepository):
         self.repo = repo
+
+    def create(self, company_user: CompanyUserCreationForm, current_user_id: int) -> CompanyUser:
+        current_user = self.repo.check_weather_user_exists(current_user_id, company_user.company)
+        assert current_user, f'User with id {current_user_id} is not registered for the company with id {company_user.company}'
+        assert current_user.user_status == CompanyStatus.MANAGER, 'Only manager can add new users to the company'
+
+        check_user_being_created = self.repo.check_weather_user_exists(company_user.user, company_user.company)
+        assert not check_user_being_created, f'User with id {company_user.user} is already registered for the company with id {company_user.company}'
+
+        return self.repo.attach_user(company_user.user, company_user.company, company_user.user_status)
 
     def get_company_user_by_id(self, company_user_id: int, current_user_id: int) -> CompanyUser:
         assert company_user_id > 0, 'Company user id must be greater than zero'
