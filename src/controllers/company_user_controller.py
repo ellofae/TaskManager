@@ -1,5 +1,4 @@
 from models.company_user import CompanyUser, CompanyUserCreationForm, CompanyUserUpdateForm
-from models.company_status import CompanyStatus
 
 from repository.company_user_repository import CompanyUserRepository
 from services.company_user_service import CompanyUserService

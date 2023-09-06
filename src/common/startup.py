@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import services.hashing as hashing_service
+import utils.hashing as hashing_service
 from database.database import session
 from decouple import config
 from models.regular_status import RegularStatus

@@ -1,6 +1,6 @@
 from datetime import datetime
+
 from models.task import Task, TaskEntity, TaskCreationForm, TaskUpdateForm
-from models.user import UserAttachForm
 from repository.task_repository import TaskRepository
 
 
@@ -40,6 +40,6 @@ class TaskService:
         return task
 
 
-def get_all_tasks(self, company_id: int) -> list[Task]:
-        assert company_id > 0, 'Company id must be greater than zero'
-        return self.repo.get_all_tasks(company_id)
+    def get_all_tasks(self, company_id: int) -> list[Task]:
+            assert company_id > 0, 'Company id must be greater than zero'
+            return self.repo.get_all_tasks(company_id)

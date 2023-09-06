@@ -1,6 +1,5 @@
-from models.token import TokenEntity
-from models.token import TokenEntity
 from database.database import session
+from models.token import TokenEntity
 
 
 class TokenRepository:

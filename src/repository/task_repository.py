@@ -1,8 +1,10 @@
 from datetime import datetime
+
+from database.database import session
+from models.company import CompanyEntity
 from models.task import Task, TaskEntity, TaskUpdateForm
 from models.user_task import UserTask
-from models.company import CompanyEntity
-from database.database import session
+
 
 class TaskRepository:
     # Command module

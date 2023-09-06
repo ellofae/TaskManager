@@ -1,5 +1,7 @@
+from datetime import datetime
+
 from models.company_status import CompanyStatus
-from models.company_user import CompanyUser, CompanyUserCreationForm, CompanyUserUpdateForm
+from models.company_user import CompanyUser, CompanyUserCreationForm, CompanyUserUpdateForm, CompanyUserEntity
 from repository.company_user_repository import CompanyUserRepository
 
 
@@ -8,12 +10,10 @@ class CompanyUserService:
         self.repo = repo
 
     def create(self, company_user: CompanyUserCreationForm, current_user_id: int) -> CompanyUser:
-        current_user = self.repo.check_weather_user_exists(current_user_id, company_user.company)
-        assert current_user, f'User with id {current_user_id} is not registered for the company with id {company_user.company}'
+        current_user = self.check_weather_user_exists_wrapper(current_user_id, company_user.company)
         assert current_user.user_status == CompanyStatus.MANAGER, 'Only manager can add new users to the company'
 
-        check_user_being_created = self.repo.check_weather_user_exists(company_user.user, company_user.company)
-        assert not check_user_being_created, f'User with id {company_user.user} is already registered for the company with id {company_user.company}'
+        self.check_weather_user_exists_wrapper(company_user.user, company_user.company)
 
         return self.repo.attach_user(company_user.user, company_user.company, company_user.user_status)
 
@@ -21,18 +21,21 @@ class CompanyUserService:
         assert company_user_id > 0, 'Company user id must be greater than zero'
         company_user_to_update = self.repo.get_company_user_by_id(company_user_id)
 
-        current_user_to_check = self.repo.check_weather_user_exists(current_user_id, company_user_to_update.company)
-        assert current_user_to_check, f'User with id {current_user_id} is not registered for the company with id {company_user_to_update.company}'
+        self.check_weather_user_exists_wrapper(current_user_id, company_user_to_update.company)
 
-        return self.repo.update(company_user_to_update, company_user)
+        entity = CompanyUserEntity.from_model(company_user_to_update)
+        for key, value in company_user.dict(exclude_unset=True).items():
+            setattr(entity, key, value)
+
+        entity.updated_at = datetime.now()
+
+        return self.repo.save(entity)
 
     def delete(self, company_user_id: int, current_user_id) -> CompanyUser:
         assert company_user_id > 0, "Company user id must be greater than zero"
 
         company_user_entity_to_delete = self.repo.get_company_user_entity_by_id(company_user_id)
-
-        current_user_to_check = self.repo.check_weather_user_exists(current_user_id, company_user_entity_to_delete.company)
-        assert current_user_to_check, f'User with id {current_user_id} is not registered for the company with id {company_user_entity_to_delete.company}'
+        self.check_weather_user_exists_wrapper(current_user_id, company_user_entity_to_delete.company)
 
         return self.repo.delete(company_user_entity_to_delete)
 
@@ -40,14 +43,12 @@ class CompanyUserService:
         assert company_user_id > 0, 'Company user id must be greater than zero'
         company_user = self.repo.get_company_user_by_id(company_user_id)
 
-        current_user = self.repo.check_weather_user_exists(current_user_id, company_user.company)
-        assert current_user, f'User with id {current_user_id} is not registered for the company with id {company_user.company}'
+        self.check_weather_user_exists_wrapper(current_user_id, company_user.company)
 
         return company_user
 
     def get_company_users(self, company_id: int, user_id: int) -> list[CompanyUser]:
-        current_company_user = self.repo.check_weather_user_exists(user_id, company_id)
-        assert current_company_user, f'User with id {user_id} is already registered for company with id {company_id}'
+        self.check_weather_user_exists_wrapper(user_id, company_id)
 
         return self.repo.get_company_users(company_id)
 
@@ -63,3 +64,9 @@ class CompanyUserService:
         assert not user_to_check, f'User with id {user_id} is already registered for company with id {company_id}'
 
         self.repo.attach_user(user_id, company_id, company_status)
+
+    def check_weather_user_exists_wrapper(self, user_id: int, company_id: int) -> CompanyUser:
+        company_user = self.check_weather_user_exists(user_id, company_id)
+        assert company_user, f'User with id {user_id} is already registered for company with id {company_id}'
+
+        return company_user

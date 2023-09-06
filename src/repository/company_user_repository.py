@@ -2,7 +2,7 @@ from datetime import datetime
 
 from database.database import session
 from models.company_status import CompanyStatus
-from models.company_user import CompanyUser, CompanyUserEntity, CompanyUserUpdateForm
+from models.company_user import CompanyUser, CompanyUserEntity
 
 
 class CompanyUserRepository:
@@ -17,15 +17,6 @@ class CompanyUserRepository:
             db.commit()
 
             return CompanyUser.from_entity(entity)
-
-    def update(self, company_user_to_update: CompanyUser, company_user: CompanyUserUpdateForm) -> CompanyUser:
-        entity = CompanyUserEntity.from_model(company_user_to_update)
-
-        for key, value in company_user.dict(exclude_unset=True).items():
-            setattr(entity, key, value)
-
-        entity.updated_at = datetime.now()
-        return self.save(entity)
 
     def delete(self, entity: CompanyUserEntity) -> CompanyUser:
         with session() as db:

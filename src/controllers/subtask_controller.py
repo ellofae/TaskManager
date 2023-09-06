@@ -1,13 +1,10 @@
-from models.subtask import Subtask, SubtaskEntity, SubtaskCreationForm, SubtaskUpdateForm
-
-from repository.subtask_repository import SubtaskRepository
-from services.subtask_service import SubtaskService
-
-from repository.task_repository import TaskRepository
-from services.task_service import TaskService
-
+from models.subtask import Subtask, SubtaskCreationForm, SubtaskUpdateForm
 from repository.company_user_repository import CompanyUserRepository
+from repository.subtask_repository import SubtaskRepository
+from repository.task_repository import TaskRepository
 from services.company_user_service import CompanyUserService
+from services.subtask_service import SubtaskService
+from services.task_service import TaskService
 
 
 class SubtaskController:
@@ -19,8 +16,7 @@ class SubtaskController:
     def create(self, subtask: SubtaskCreationForm, current_user_id: int) -> Subtask:
         task = self.task_service.get_task_by_id(subtask.task)
 
-        user_to_check = self.company_user_service.check_weather_user_exists(current_user_id, task.company_id)
-        assert user_to_check, f'User with id {current_user_id} is not registered for company with id {task.company_id}'
+        user_to_check = self.company_user_service.check_weather_user_exists_wrapper(current_user_id, task.company_id)
 
         return self.subtask_service.create(subtask, user_to_check.id)
 
@@ -29,8 +25,7 @@ class SubtaskController:
         subtask_to_update = self.subtask_service.get_subtask_entity_id(subtask_id)
 
         task = self.task_service.get_task_by_id(subtask_to_update.task)
-        user_to_check = self.company_user_service.check_weather_user_exists(current_user_id, task.company_id)
-        assert user_to_check, f'User with id {current_user_id} is not registered for company with id {task.company_id}'
+        self.company_user_service.check_weather_user_exists_wrapper(current_user_id, task.company_id)
 
         return self.subtask_service.update(subtask_id, subtask)
 
@@ -38,15 +33,13 @@ class SubtaskController:
         subtask_to_update = self.subtask_service.get_subtask_entity_id(subtask_id)
 
         task = self.task_service.get_task_by_id(subtask_to_update.task)
-        user_to_check = self.company_user_service.check_weather_user_exists(current_user_id, task.company_id)
-        assert user_to_check, f'User with id {current_user_id} is not registered for company with id {task.company_id}'
+        self.company_user_service.check_weather_user_exists_wrapper(current_user_id, task.company_id)
 
         return self.subtask_service.delete(subtask_id)
 
     def get_subtasks(self, task_id: int, current_user_id: int) -> list[Subtask]:
         task = self.task_service.get_task_by_id(task_id)
-        user_to_check = self.company_user_service.check_weather_user_exists(current_user_id, task.company_id)
-        assert user_to_check, f'User with id {current_user_id} is not registered for company with id {task.company_id}'
+        self.company_user_service.check_weather_user_exists_wrapper(current_user_id, task.company_id)
 
         return self.subtask_service.get_subtasks(task_id)
 
