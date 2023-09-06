@@ -8,7 +8,7 @@ from models.user import UserEntity
 
 
 def startup():
-    print('INFO: loading data')
+    print('START UP INFO: loading data')
 
     with session() as db:
         user_record = db.query(UserEntity).filter(UserEntity.status == RegularStatus.ADMIN).first()
