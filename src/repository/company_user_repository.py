@@ -2,7 +2,7 @@ from datetime import datetime
 
 from database.database import session
 from models.company_status import CompanyStatus
-from models.company_user import CompanyUser, CompanyUserEntity
+from models.company_user import CompanyUser, CompanyUserEntity, CompanyUserUpdateForm
 
 
 class CompanyUserRepository:
@@ -18,10 +18,20 @@ class CompanyUserRepository:
 
             return CompanyUser.from_entity(entity)
 
+    def update(self, company_user_to_update: CompanyUser, company_user: CompanyUserUpdateForm) -> CompanyUser:
+        entity = CompanyUserEntity.from_model(company_user_to_update)
+
+        for key, value in company_user.dict(exclude_unset=True).items():
+            setattr(entity, key, value)
+
+        entity.updated_at = datetime.now()
+        return self.save(entity)
+
     def attach_user(self, user_id: int, company_id: int, company_status: CompanyStatus) -> CompanyUser:
         entity = CompanyUserEntity(company=company_id, user=user_id, member_since=datetime.now(), user_status=company_status)
         return self.save(entity)
 
+    # Querying module
     def get_company_user_by_id(self, company_user_id: int) -> CompanyUser:
         with session() as db:
             entity = db.query(CompanyUserEntity).get(company_user_id)
@@ -29,7 +39,6 @@ class CompanyUserRepository:
 
             return CompanyUser.from_entity(entity)
 
-    # Querying module
     def get_company_users(self, company_id: int) -> list[CompanyUser]:
         with session() as db:
             entities = db.query(CompanyUserEntity).filter(CompanyUserEntity.company == company_id).order_by(

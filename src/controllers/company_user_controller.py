@@ -1,4 +1,4 @@
-from models.company_user import CompanyUser, CompanyUserCreationForm
+from models.company_user import CompanyUser, CompanyUserCreationForm, CompanyUserUpdateForm
 from models.company_status import CompanyStatus
 
 from repository.company_user_repository import CompanyUserRepository
@@ -11,6 +11,9 @@ class CompanyUserController:
 
     def create(self, company_user: CompanyUserCreationForm, current_user_id: int) -> CompanyUser:
         return self.company_user_service.create(company_user, current_user_id)
+
+    def update(self, company_user_id: int, company_user: CompanyUserUpdateForm, current_user_id: int) -> CompanyUser:
+        return self.company_user_service.update(company_user_id, company_user, current_user_id)
 
     def get_company_user_by_id(self, company_user_id: int, current_user_id: int) -> CompanyUser:
         return self.company_user_service.get_company_user_by_id(company_user_id, current_user_id)

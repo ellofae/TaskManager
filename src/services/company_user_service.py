@@ -1,5 +1,5 @@
 from models.company_status import CompanyStatus
-from models.company_user import CompanyUser, CompanyUserCreationForm
+from models.company_user import CompanyUser, CompanyUserCreationForm, CompanyUserUpdateForm
 from repository.company_user_repository import CompanyUserRepository
 
 
@@ -16,6 +16,15 @@ class CompanyUserService:
         assert not check_user_being_created, f'User with id {company_user.user} is already registered for the company with id {company_user.company}'
 
         return self.repo.attach_user(company_user.user, company_user.company, company_user.user_status)
+
+    def update(self, company_user_id: int, company_user: CompanyUserUpdateForm, current_user_id: int) -> CompanyUser:
+        assert company_user_id > 0, 'Company user id must be greater than zero'
+        company_user_to_update = self.repo.get_company_user_by_id(company_user_id)
+
+        current_user_to_check = self.repo.check_weather_user_exists(current_user_id, company_user_to_update.company)
+        assert current_user_to_check, f'User with id {current_user_id} is not registered for the company with id {company_user_to_update.company}'
+
+        return self.repo.update(company_user_to_update, company_user)
 
     def get_company_user_by_id(self, company_user_id: int, current_user_id: int) -> CompanyUser:
         assert company_user_id > 0, 'Company user id must be greater than zero'

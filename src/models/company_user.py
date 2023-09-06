@@ -38,6 +38,6 @@ class CompanyUserCreationForm(BaseModelExtended):
         orm_mode = True
 
 class CompanyUserUpdateForm(BaseModelExtended):
-    user_status: Optional[str]
+    user_status: Optional[CompanyStatus]
     class Config:
         orm_mode = True
