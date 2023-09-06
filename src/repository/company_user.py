@@ -58,8 +58,6 @@ def update(company_user_id: int, company_user: CompanyUserUpdateForm) -> Company
 def delete(company_user_id: int) -> CompanyUser:
     with session() as db:
         entity = db.query(CompanyUserEntity).get(company_user_id)
-        assert entity, f'No task with id {company_user_id} exists'
-
         db.delete(entity)
         db.commit()
 

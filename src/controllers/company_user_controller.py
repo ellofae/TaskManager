@@ -15,6 +15,9 @@ class CompanyUserController:
     def update(self, company_user_id: int, company_user: CompanyUserUpdateForm, current_user_id: int) -> CompanyUser:
         return self.company_user_service.update(company_user_id, company_user, current_user_id)
 
+    def delete(self, company_user_id: int, current_user_id) -> CompanyUser:
+        return self.company_user_service.delete(company_user_id, current_user_id)
+
     def get_company_user_by_id(self, company_user_id: int, current_user_id: int) -> CompanyUser:
         return self.company_user_service.get_company_user_by_id(company_user_id, current_user_id)
 

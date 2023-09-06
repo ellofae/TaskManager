@@ -26,6 +26,16 @@ class CompanyUserService:
 
         return self.repo.update(company_user_to_update, company_user)
 
+    def delete(self, company_user_id: int, current_user_id) -> CompanyUser:
+        assert company_user_id > 0, "Company user id must be greater than zero"
+
+        company_user_entity_to_delete = self.repo.get_company_user_entity_by_id(company_user_id)
+
+        current_user_to_check = self.repo.check_weather_user_exists(current_user_id, company_user_entity_to_delete.company)
+        assert current_user_to_check, f'User with id {current_user_id} is not registered for the company with id {company_user_entity_to_delete.company}'
+
+        return self.repo.delete(company_user_entity_to_delete)
+
     def get_company_user_by_id(self, company_user_id: int, current_user_id: int) -> CompanyUser:
         assert company_user_id > 0, 'Company user id must be greater than zero'
         company_user = self.repo.get_company_user_by_id(company_user_id)

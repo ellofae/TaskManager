@@ -27,11 +27,25 @@ class CompanyUserRepository:
         entity.updated_at = datetime.now()
         return self.save(entity)
 
+    def delete(self, entity: CompanyUserEntity) -> CompanyUser:
+        with session() as db:
+            db.delete(entity)
+            db.commit()
+
+            return CompanyUser.from_entity(entity)
+
     def attach_user(self, user_id: int, company_id: int, company_status: CompanyStatus) -> CompanyUser:
         entity = CompanyUserEntity(company=company_id, user=user_id, member_since=datetime.now(), user_status=company_status)
         return self.save(entity)
 
     # Querying module
+    def get_company_user_entity_by_id(self, company_user_id: int) -> CompanyUserEntity:
+        with session() as db:
+            entity = db.query(CompanyUserEntity).get(company_user_id)
+            assert entity, f'No company user with id {company_user_id} exists'
+
+            return entity
+
     def get_company_user_by_id(self, company_user_id: int) -> CompanyUser:
         with session() as db:
             entity = db.query(CompanyUserEntity).get(company_user_id)
