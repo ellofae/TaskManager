@@ -4,6 +4,7 @@ import services.company as service
 from common.current_user_data import get_current_user_id
 from controllers.company_controller import get_company_controller
 from controllers.company_user_controller import get_company_user_controller
+from controllers.task_controller import get_task_controller
 from fastapi import APIRouter, Depends
 from models.company import Company
 from models.company_user import CompanyUser
@@ -18,7 +19,8 @@ async def get_all_companies(current_user_id: Annotated[int, Depends(get_current_
 
 @company_router.get('/{company_id}/tasks', response_model=list[Task], response_model_exclude_none=True, status_code=200, tags=['companies'])
 async def get_all_tasks(company_id: int, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> list[Task]:
-    return service.get_all_tasks(company_id, current_user_id)
+    task_controller = get_task_controller()
+    return task_controller.get_all_tasks(company_id, current_user_id)
 
 @company_router.get('/{company_id}/users', response_model=list[CompanyUser], response_model_exclude_none=True, status_code=200, tags=['companies'])
 async def get_company_users(company_id: int, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> list[CompanyUser]:
