@@ -7,9 +7,14 @@ class CompanyUserService:
     def __init__(self, repo: CompanyUserRepository):
         self.repo = repo
 
-    def get_company_user_by_id(self, company_user_id: int) -> CompanyUser:
+    def get_company_user_by_id(self, company_user_id: int, current_user_id: int) -> CompanyUser:
         assert company_user_id > 0, 'Company user id must be greater than zero'
-        return self.repo.get_company_user_by_id(company_user_id)
+        company_user = self.repo.get_company_user_by_id(company_user_id)
+
+        current_user = self.repo.check_weather_user_exists(current_user_id, company_user.company)
+        assert current_user, f'User with id {current_user_id} is not registered for the company with id {company_user.company}'
+
+        return company_user
 
     def get_company_users(self, company_id: int, user_id: int) -> list[CompanyUser]:
         current_company_user = self.repo.check_weather_user_exists(user_id, company_id)
