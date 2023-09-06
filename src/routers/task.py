@@ -17,7 +17,8 @@ async def get_subtasks(task_id: int, current_user_id: Annotated[int, Depends(get
 
 @task_router.get('/{task_id}', response_model=Task, response_model_exclude_none=True, status_code=200, tags=['tasks'])
 async def get_task_by_id(task_id: int, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> Task:
-    return service.get_task_by_id(task_id, current_user_id)
+    task_controller = get_task_controller()
+    return task_controller.get_task_by_id(task_id, current_user_id)
 
 @task_router.post('/', response_model=Task, response_model_exclude_none=True, status_code=201, tags=['tasks'])
 async def create(task: TaskCreationForm, current_user_id: Annotated[int, Depends(get_current_user_id)]) -> Task:
