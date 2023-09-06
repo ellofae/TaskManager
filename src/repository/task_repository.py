@@ -4,6 +4,16 @@ from database.database import session
 
 class TaskRepository:
     # Command module
+    def save(self, entity: TaskEntity) -> Task:
+        with session() as db:
+            'False -> detect only local-column based properties'
+            if db.is_modified(entity, include_collections=False):
+                entity = db.merge(entity)
+
+            db.add(entity)
+            db.commit()
+
+            return Task.from_entity(entity)
 
     # Querying module
     def get_all_tasks(self, company_id: int) -> list[Task]:
