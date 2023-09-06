@@ -22,6 +22,13 @@ class CompanyUserRepository:
         entity = CompanyUserEntity(company=company_id, user=user_id, member_since=datetime.now(), user_status=company_status)
         return self.save(entity)
 
+    def get_company_user_by_id(self, company_user_id: int) -> CompanyUser:
+        with session() as db:
+            entity = db.query(CompanyUserEntity).get(company_user_id)
+            assert entity, f'No company user with id {company_user_id} exists'
+
+            return CompanyUser.from_entity(entity)
+
     # Querying module
     def get_company_users(self, company_id: int) -> list[CompanyUser]:
         with session() as db:
